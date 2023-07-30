@@ -8,7 +8,7 @@ export const hoteladddetails = async (req: Request, res: Response) => {
 
   const Schema = Joi.object({
     hotelname: Joi.string()
-      .pattern(/^[a-zA-Z]+$/)
+      .pattern(/^[a-zA-Z_]+$/)
       .min(3)
       .max(30)
       .required(),
@@ -32,7 +32,7 @@ export const hoteladddetails = async (req: Request, res: Response) => {
       .max(30)
       .required(),
     address: Joi.string()
-      .pattern(/^[a-zA-Z]+$/)
+      .pattern(/^[a-zA-Z_]+$/)
       .min(3)
       .max(50)
       .required(),
