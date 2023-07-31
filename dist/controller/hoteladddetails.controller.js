@@ -20,7 +20,7 @@ const hoteladddetails = (req, res) => __awaiter(void 0, void 0, void 0, function
     const { hotelname, email, contact, city, address, GSTIN, logopath, id } = req.body;
     const Schema = joi_1.default.object({
         hotelname: joi_1.default.string()
-            .pattern(/^[a-zA-Z]+$/)
+            .pattern(/^[a-zA-Z ]+$/)
             .min(3)
             .max(30)
             .required(),
@@ -44,7 +44,7 @@ const hoteladddetails = (req, res) => __awaiter(void 0, void 0, void 0, function
             .max(30)
             .required(),
         address: joi_1.default.string()
-            .pattern(/^[a-zA-Z]+$/)
+            .pattern(/^[a-zA-Z ]+$/)
             .min(3)
             .max(50)
             .required(),
