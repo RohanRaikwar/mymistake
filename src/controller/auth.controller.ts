@@ -30,6 +30,8 @@ export const login = async (req: Request, res: Response) => {
   if (!checkExit) {
     return res.status(401).json({ message: "user not found" });
   }
+  console.log(checkExit);
+  
 
   if (checkExit.otp != otp) {
     return res.status(401).json({ message: "invalid otp" });
