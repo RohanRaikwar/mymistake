@@ -6,6 +6,8 @@ import HotelAuth from "../Model/hotel.model"
 
 export const login = async (req: Request, res: Response) => {
   const { mobile_no, otp } = req.body;
+  console.log(req.body);
+  
 
   const Schema = Joi.object({
     number: Joi.string().regex(/^[0-9]{10}$/).messages({ 'string.pattern.base': `Phone number must have 10 digits.` }).required(),
@@ -14,8 +16,12 @@ export const login = async (req: Request, res: Response) => {
 
   try {
     const parser = await Schema.validateAsync({ number: mobile_no, otp: otp });
+    console.log(parser);
+    
   } catch (err) {
-    return res.status(404).json({ message: "invalid mobile number" });
+    console.log(err);
+    
+    return res.status(401).json({ message: "bad request" });
   }
 
   const otpRegen = await otpgen();
@@ -25,7 +31,7 @@ export const login = async (req: Request, res: Response) => {
     return res.status(401).json({ message: "user not found" });
   }
 
-  if (checkExit.otp !== otp) {
+  if (checkExit.otp != otp) {
     return res.status(401).json({ message: "invalid otp" });
   }
 

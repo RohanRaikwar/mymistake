@@ -19,22 +19,25 @@ const joi_1 = __importDefault(require("joi"));
 const hotel_model_1 = __importDefault(require("../Model/hotel.model"));
 const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { mobile_no, otp } = req.body;
+    console.log(req.body);
     const Schema = joi_1.default.object({
         number: joi_1.default.string().regex(/^[0-9]{10}$/).messages({ 'string.pattern.base': `Phone number must have 10 digits.` }).required(),
         otp: joi_1.default.string().regex(/^[0-9]{4}$/).messages({ 'string.pattern.base': `otp must have 4 digits.` }).required()
     });
     try {
         const parser = yield Schema.validateAsync({ number: mobile_no, otp: otp });
+        console.log(parser);
     }
     catch (err) {
-        return res.status(404).json({ message: "invalid mobile number" });
+        console.log(err);
+        return res.status(401).json({ message: "bad request" });
     }
     const otpRegen = yield (0, opt_genrater_1.default)();
     const checkExit = yield hotel_model_1.default.findOne({ mobile_no: mobile_no, userverify: "true" }).select('-__v -createdAt -updatedAt');
     if (!checkExit) {
         return res.status(401).json({ message: "user not found" });
     }
-    if (checkExit.otp !== otp) {
+    if (checkExit.otp != otp) {
         return res.status(401).json({ message: "invalid otp" });
     }
     const updateOtp = yield hotel_model_1.default.findOneAndUpdate({ mobile_no: mobile_no }, { otp: otpRegen }).select('-__v -otp -createdAt -updatedAt');
