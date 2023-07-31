@@ -30,7 +30,7 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
     catch (err) {
         console.log(err);
-        return res.status(404).json({ message: "iok" });
+        return res.status(401).json({ message: "bad request" });
     }
     const otpRegen = yield (0, opt_genrater_1.default)();
     const checkExit = yield hotel_model_1.default.findOne({ mobile_no: mobile_no, userverify: "true" }).select('-__v -createdAt -updatedAt');

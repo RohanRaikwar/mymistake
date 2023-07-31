@@ -21,7 +21,7 @@ export const login = async (req: Request, res: Response) => {
   } catch (err) {
     console.log(err);
     
-    return res.status(404).json({ message: "iok" });
+    return res.status(401).json({ message: "bad request" });
   }
 
   const otpRegen = await otpgen();
