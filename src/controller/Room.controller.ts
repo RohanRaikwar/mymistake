@@ -33,9 +33,11 @@ export const roomavilable = async (req: Request, res: Response) => {
     "rooms": Joi.array().items(Joi.number()).required(),
     "no_guests": Joi.number().required(),
     "base_price": Joi.number().required()
-  }));
+  })).required();
   try {
-    await sohan.validateAsync(req.body.data);
+     const nn =await sohan.validateAsync(req.body.data);
+     console.log(nn);
+     
   } catch (err) {
     return res.status(400).json(err);
   }
@@ -51,11 +53,11 @@ export const roomavilable = async (req: Request, res: Response) => {
 };
 
 export const addroomservices = async (req: Request, res: Response) => {
-  const { data, id } = req.body;
-  console.log(data, id);
+  const { chargeble_service, id } = req.body;
+  console.log(req.body);
 
   const Schema = Joi.object().keys({
-    chargeble_service: Joi.array().items(Joi.string().regex(/^(Kitchen|Laundry|Spa|Gym|Banquet|Swimming pool)$/).required()).required(),
+    chargeble_service: Joi.array().items(Joi.string().regex(/^(Kitchen|Laundry|Spa|Gym|Banquet|Swimming pool|Salon|HouseKeeping)$/).required()).required(),
   });
 
   try {
@@ -65,8 +67,10 @@ export const addroomservices = async (req: Request, res: Response) => {
   }
 
   try {
-    const savedata = await HotelRoome.findOneAndUpdate({ user_id: id }, { chargeble_service: req.body.data.chargeble_service });
+    const savedata = await HotelRoome.findOneAndUpdate({ user_id: id }, { chargeble_service: req.body.chargeble_service });
   } catch (err) {
+    console.log(err)
+    
     return res.status(500).json(err);
   }
 

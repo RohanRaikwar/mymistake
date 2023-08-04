@@ -44,9 +44,10 @@ const roomavilable = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         "rooms": joi_1.default.array().items(joi_1.default.number()).required(),
         "no_guests": joi_1.default.number().required(),
         "base_price": joi_1.default.number().required()
-    }));
+    })).required();
     try {
-        yield sohan.validateAsync(req.body.data);
+        const nn = yield sohan.validateAsync(req.body.data);
+        console.log(nn);
     }
     catch (err) {
         return res.status(400).json(err);
@@ -62,10 +63,10 @@ const roomavilable = (req, res) => __awaiter(void 0, void 0, void 0, function* (
 });
 exports.roomavilable = roomavilable;
 const addroomservices = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { data, id } = req.body;
-    console.log(data, id);
+    const { chargeble_service, id } = req.body;
+    console.log(req.body);
     const Schema = joi_1.default.object().keys({
-        chargeble_service: joi_1.default.array().items(joi_1.default.string().regex(/^(Kitchen|Laundry|Spa|Gym|Banquet|Swimming pool)$/).required()).required(),
+        chargeble_service: joi_1.default.array().items(joi_1.default.string().regex(/^(Kitchen|Laundry|Spa|Gym|Banquet|Swimming pool|Salon|HouseKeeping)$/).required()).required(),
     });
     try {
         yield Schema.validateAsync(req.body.data);
@@ -74,9 +75,10 @@ const addroomservices = (req, res) => __awaiter(void 0, void 0, void 0, function
         return res.status(400).json(err);
     }
     try {
-        const savedata = yield hotelRoome_model_1.default.findOneAndUpdate({ user_id: id }, { chargeble_service: req.body.data.chargeble_service });
+        const savedata = yield hotelRoome_model_1.default.findOneAndUpdate({ user_id: id }, { chargeble_service: req.body.chargeble_service });
     }
     catch (err) {
+        console.log(err);
         return res.status(500).json(err);
     }
     const updatestage = yield hotel_model_1.default.findByIdAndUpdate(id, { completedstage: "chargeble_service filled" }, { returnOriginal: false }).select("-__v -createdAt -updatedAt  -otp");
