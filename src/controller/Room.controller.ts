@@ -18,9 +18,17 @@ export const roomtypescontroller = async (req: Request, res: Response) => {
   } catch (err) {
     return res.status(400).json("invalide request");
   }
+  const checkRoomData=  await HotelRoome.find({user_id:id})
+  if(!checkRoomData){
 
   const addrooms = new HotelRoome({ room_type: data, user_id: id });
   const savedata = await addrooms.save();
+    
+  }
+  else{
+     await HotelRoome.findOneAndUpdate({user_id:id},{room_type:data})
+  }
+
   const updatestage = await HotelAuth.findByIdAndUpdate(id, { completedstage: "room types uploaded" }, { returnOriginal: false }).select("-__v -createdAt -updatedAt -otp ");
   res.status(201).json(updatestage);
 };
@@ -44,6 +52,8 @@ export const roomavilable = async (req: Request, res: Response) => {
 
   try {
     const updaterooms = await HotelRoome.findOneAndUpdate({ user_id: data }, { room_availibility: req.body.data });
+    console.log(updaterooms);
+    
   } catch (err) {
     return res.status(404).json(err);
   }

@@ -30,8 +30,14 @@ const roomtypescontroller = (req, res) => __awaiter(void 0, void 0, void 0, func
     catch (err) {
         return res.status(400).json("invalide request");
     }
-    const addrooms = new hotelRoome_model_1.default({ room_type: data, user_id: id });
-    const savedata = yield addrooms.save();
+    const checkRoomData = yield hotelRoome_model_1.default.find({ user_id: id });
+    if (!checkRoomData) {
+        const addrooms = new hotelRoome_model_1.default({ room_type: data, user_id: id });
+        const savedata = yield addrooms.save();
+    }
+    else {
+        yield hotelRoome_model_1.default.findOneAndUpdate({ user_id: id }, { room_type: data });
+    }
     const updatestage = yield hotel_model_1.default.findByIdAndUpdate(id, { completedstage: "room types uploaded" }, { returnOriginal: false }).select("-__v -createdAt -updatedAt -otp ");
     res.status(201).json(updatestage);
 });
@@ -54,6 +60,7 @@ const roomavilable = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     }
     try {
         const updaterooms = yield hotelRoome_model_1.default.findOneAndUpdate({ user_id: data }, { room_availibility: req.body.data });
+        console.log(updaterooms);
     }
     catch (err) {
         return res.status(404).json(err);
