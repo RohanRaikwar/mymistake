@@ -18,6 +18,7 @@ const hotel_model_1 = __importDefault(require("../Model/hotel.model"));
 const hotelRoome_model_1 = __importDefault(require("../Model/hotelRoome.model"));
 const roomtypescontroller = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { data, id } = req.body;
+    console.log(req.body);
     const Schema = joi_1.default.object({
         data: joi_1.default.array()
             .min(1)
@@ -31,12 +32,16 @@ const roomtypescontroller = (req, res) => __awaiter(void 0, void 0, void 0, func
         return res.status(400).json("invalide request");
     }
     const checkRoomData = yield hotelRoome_model_1.default.find({ user_id: id });
-    if (!checkRoomData) {
+    console.log(checkRoomData);
+    if (checkRoomData.length == 0) {
         const addrooms = new hotelRoome_model_1.default({ room_type: data, user_id: id });
+        console.log(addrooms);
         const savedata = yield addrooms.save();
+        console.log(11);
     }
     else {
-        yield hotelRoome_model_1.default.findOneAndUpdate({ user_id: id }, { room_type: data });
+        const userUpadte = yield hotelRoome_model_1.default.findOneAndUpdate({ user_id: id }, { room_type: data });
+        console.log("22");
     }
     const updatestage = yield hotel_model_1.default.findByIdAndUpdate(id, { completedstage: "room types uploaded" }, { returnOriginal: false }).select("-__v -createdAt -updatedAt -otp ");
     res.status(201).json(updatestage);
@@ -100,15 +105,21 @@ const addanmanties = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         types: joi_1.default.array().items(joi_1.default.string().required()).required(),
     }));
     try {
-        const validater = yield Schema.validate(amenities);
+        const validater = yield Schema.validateAsync(amenities);
         console.log(validater);
     }
     catch (err) {
+        console.log(err);
         return res.status(400).json("invalide request");
     }
-    const update = yield hotelRoome_model_1.default.findOneAndUpdate({ user_id: id }, { Amenities: amenities });
-    const updatestage = yield hotel_model_1.default.findByIdAndUpdate(id, { completedstage: "amenities filled" }, { returnOriginal: false }).select("-__v -createdAt -updatedAt -otp ");
-    res.status(201).json(updatestage);
+    try {
+        const update = yield hotelRoome_model_1.default.findOneAndUpdate({ user_id: id }, { Amenities: amenities });
+        const updatestage = yield hotel_model_1.default.findByIdAndUpdate(id, { completedstage: "amenities filled" }, { returnOriginal: false }).select("-__v -createdAt -updatedAt -otp ");
+        res.status(201).json(update);
+    }
+    catch (err) {
+        return res.status(400).json(err);
+    }
 });
 exports.addanmanties = addanmanties;
 const uploadphotos = (req, res) => __awaiter(void 0, void 0, void 0, function* () {

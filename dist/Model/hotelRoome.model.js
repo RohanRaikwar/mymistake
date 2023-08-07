@@ -14,8 +14,7 @@ const RoomSchema = new mongoose_1.Schema({
                 no_guests: String,
                 base_price: String,
             },
-        ],
-        default: [{ room_type: '', rooms: [], no_guests: '', base_price: '' }],
+        ]
     },
     user_id: {
         type: String,
@@ -23,17 +22,17 @@ const RoomSchema = new mongoose_1.Schema({
     },
     chargeble_service: {
         type: [String],
-        default: ['housekeeping', 'spa'],
     },
-    Amenities: {
-        type: [
-            {
-                nameof_amenities: String,
-                types: [String],
+    Amenities: [{
+            nameof_amenities: {
+                type: String,
+                required: true
             },
-        ],
-        default: [{ nameof_amenities: 'general_amenities', types: [] }],
-    },
+            types: {
+                type: [String],
+                required: true
+            }
+        }],
     photos: {
         type: [
             {
@@ -41,10 +40,9 @@ const RoomSchema = new mongoose_1.Schema({
                 path: String,
             },
         ],
-        default: [],
     },
 }, {
     timestamps: true,
 });
-const RoomModel = (0, mongoose_1.model)('Hotelroomes', RoomSchema);
+const RoomModel = (0, mongoose_1.model)('hotelRoomAvailivilitys', RoomSchema);
 exports.default = RoomModel;

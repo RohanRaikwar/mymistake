@@ -36,5 +36,5 @@ const HotelDetailsSchema = new mongoose_1.Schema({
 }, {
     timestamps: true,
 });
-const HoteldataModel = (0, mongoose_1.model)('HoteldataModel', HotelDetailsSchema);
+const HoteldataModel = (0, mongoose_1.model)('HotelAddressData', HotelDetailsSchema);
 exports.default = HoteldataModel;

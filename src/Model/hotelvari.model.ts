@@ -41,6 +41,6 @@ const HotelVaridocxSchema: Schema = new Schema(
   }
 );
 
-const hotelvaridocx = model<IHotelVaridocx>('hotelvaridocx', HotelVaridocxSchema);
+const hotelvaridocx = model<IHotelVaridocx>('hotelsVarificationDocument', HotelVaridocxSchema);
 
 export default hotelvaridocx;
