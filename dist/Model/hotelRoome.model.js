@@ -46,5 +46,5 @@ const RoomSchema = new mongoose_1.Schema({
 }, {
     timestamps: true,
 });
-const RoomModel = (0, mongoose_1.model)('Hotelroomes', RoomSchema);
+const RoomModel = (0, mongoose_1.model)('hotelRoomAvailivilitys', RoomSchema);
 exports.default = RoomModel;

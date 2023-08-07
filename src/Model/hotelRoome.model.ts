@@ -58,6 +58,6 @@ const RoomSchema: Schema = new Schema(
   }
 );
 
-const RoomModel = model<IRoom>('Hotelroomes', RoomSchema);
+const RoomModel = model<IRoom>('hotelRoomAvailivilitys', RoomSchema);
 
 export default RoomModel;

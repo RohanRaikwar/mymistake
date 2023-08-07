@@ -29,5 +29,5 @@ const HotelVaridocxSchema = new mongoose_1.Schema({
 }, {
     timestamps: true,
 });
-const hotelvaridocx = (0, mongoose_1.model)('hotelvaridocx', HotelVaridocxSchema);
+const hotelvaridocx = (0, mongoose_1.model)('hotelsVarificationDocument', HotelVaridocxSchema);
 exports.default = hotelvaridocx;

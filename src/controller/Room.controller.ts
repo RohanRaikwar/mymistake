@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import Joi from 'joi';
 import HotelAuth from '../Model/hotel.model';
-import HotelRoome from '../Model/hotelRoome.model';
+import RoomModel from '../Model/hotelRoome.model';
 
 export const roomtypescontroller = async (req: Request, res: Response) => {
   const { data, id } = req.body;
@@ -18,15 +18,15 @@ export const roomtypescontroller = async (req: Request, res: Response) => {
   } catch (err) {
     return res.status(400).json("invalide request");
   }
-  const checkRoomData=  await HotelRoome.find({user_id:id})
+  const checkRoomData=  await RoomModel.find({user_id:id})
   if(!checkRoomData){
 
-  const addrooms = new HotelRoome({ room_type: data, user_id: id });
+  const addrooms = new RoomModel({ room_type: data, user_id: id });
   const savedata = await addrooms.save();
     
   }
   else{
-     await HotelRoome.findOneAndUpdate({user_id:id},{room_type:data})
+     await RoomModel.findOneAndUpdate({user_id:id},{room_type:data})
   }
 
   const updatestage = await HotelAuth.findByIdAndUpdate(id, { completedstage: "room types uploaded" }, { returnOriginal: false }).select("-__v -createdAt -updatedAt -otp ");
@@ -51,7 +51,7 @@ export const roomavilable = async (req: Request, res: Response) => {
   }
 
   try {
-    const updaterooms = await HotelRoome.findOneAndUpdate({ user_id: data }, { room_availibility: req.body.data });
+    const updaterooms = await RoomModel.findOneAndUpdate({ user_id: data }, { room_availibility: req.body.data });
     console.log(updaterooms);
     
   } catch (err) {
@@ -77,7 +77,7 @@ export const addroomservices = async (req: Request, res: Response) => {
   }
 
   try {
-    const savedata = await HotelRoome.findOneAndUpdate({ user_id: id }, { chargeble_service: req.body.chargeble_service });
+    const savedata = await RoomModel.findOneAndUpdate({ user_id: id }, { chargeble_service: req.body.chargeble_service });
   } catch (err) {
     console.log(err)
     
@@ -106,7 +106,7 @@ export const addanmanties = async (req: Request, res: Response)=> {
     return res.status(400).json("invalide request");
   }
 
-  const update = await HotelRoome.findOneAndUpdate({ user_id: id }, { Amenities: amenities });
+  const update = await RoomModel.findOneAndUpdate({ user_id: id }, { Amenities: amenities });
   const updatestage = await HotelAuth.findByIdAndUpdate(id, { completedstage: "amenities filled" }, { returnOriginal: false }).select("-__v -createdAt -updatedAt -otp ");
   res.status(201).json(updatestage);
 };
@@ -126,7 +126,7 @@ export const uploadphotos = async (req: Request, res: Response) => {
     return res.status(400).json(err);
   }
 
-  const uploadpicture = await HotelRoome.findOneAndUpdate({ user_id: id }, { photos: photos });
+  const uploadpicture = await RoomModel.findOneAndUpdate({ user_id: id }, { photos: photos });
   const updatestage = await HotelAuth.findByIdAndUpdate(id, { completedstage: "room photo uploded && login steps complete" }, { returnOriginal: false }).select("-__v -createdAt -updatedAt  -otp");
   res.status(201).json(updatestage);
 };

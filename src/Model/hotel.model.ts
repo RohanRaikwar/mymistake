@@ -42,6 +42,6 @@ const HotelSchema: Schema = new Schema(
   }
 );
 
-const HotelModel = model<IHotel>('HotelModel', HotelSchema);
+const HotelModel = model<IHotel>('hotelAuthData', HotelSchema);
 
 export default HotelModel;

@@ -50,6 +50,6 @@ const HotelDetailsSchema: Schema = new Schema(
   }
 );
 
-const HoteldataModel = model<IHotelDetails>('HoteldataModel', HotelDetailsSchema);
+const HoteldataModel = model<IHotelDetails>('HotelAddressData', HotelDetailsSchema);
 
 export default HoteldataModel;
