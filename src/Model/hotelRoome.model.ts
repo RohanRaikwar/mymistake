@@ -1,3 +1,4 @@
+import { required } from 'joi';
 import { Schema, model, Document } from 'mongoose';
 
 interface IRoom extends Document {
@@ -23,8 +24,8 @@ const RoomSchema: Schema = new Schema(
           no_guests: String,
           base_price: String,
         },
-      ],
-      default: [{ room_type: '', rooms: [], no_guests: '', base_price: '' }],
+      ]
+     
     },
     user_id: {
       type: String,
@@ -32,17 +33,20 @@ const RoomSchema: Schema = new Schema(
     },
     chargeble_service: {
       type: [String],
-      default: ['housekeeping', 'spa'],
+     
     },
-    Amenities: {
-      type: [
-        {
-          nameof_amenities: String,
-          types: [String],
-        },
-      ],
-      default: [{ nameof_amenities: 'general_amenities', types: [] }],
-    },
+    Amenities: [{
+      nameof_amenities: {
+        type:String,
+        required:true
+      },
+
+      types: {
+        type:[String],
+        required:true
+      }
+    
+    }],
     photos: {
       type: [
         {
@@ -50,7 +54,7 @@ const RoomSchema: Schema = new Schema(
           path: String,
         },
       ],
-      default: [],
+     
     },
   },
   {

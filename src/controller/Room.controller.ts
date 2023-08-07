@@ -5,6 +5,8 @@ import RoomModel from '../Model/hotelRoome.model';
 
 export const roomtypescontroller = async (req: Request, res: Response) => {
   const { data, id } = req.body;
+  console.log(req.body);
+  
 
   const Schema = Joi.object({
     data: Joi.array()
@@ -19,14 +21,23 @@ export const roomtypescontroller = async (req: Request, res: Response) => {
     return res.status(400).json("invalide request");
   }
   const checkRoomData=  await RoomModel.find({user_id:id})
-  if(!checkRoomData){
+  console.log(checkRoomData);
+  
+  if(checkRoomData.length==0){
 
   const addrooms = new RoomModel({ room_type: data, user_id: id });
+  console.log(addrooms);
+  
   const savedata = await addrooms.save();
+  console.log(11);
+  
     
   }
   else{
-     await RoomModel.findOneAndUpdate({user_id:id},{room_type:data})
+      const userUpadte =await RoomModel.findOneAndUpdate({user_id:id},{room_type:data})
+     console.log("22");
+     
+     
   }
 
   const updatestage = await HotelAuth.findByIdAndUpdate(id, { completedstage: "room types uploaded" }, { returnOriginal: false }).select("-__v -createdAt -updatedAt -otp ");
@@ -100,15 +111,25 @@ export const addanmanties = async (req: Request, res: Response)=> {
   }));
 
   try {
-    const validater = await Schema.validate(amenities);
+    const validater =  await Schema.validateAsync(amenities);
     console.log(validater);
   } catch (err) {
+    console.log(err);
+    
     return res.status(400).json("invalide request");
   }
 
-  const update = await RoomModel.findOneAndUpdate({ user_id: id }, { Amenities: amenities });
-  const updatestage = await HotelAuth.findByIdAndUpdate(id, { completedstage: "amenities filled" }, { returnOriginal: false }).select("-__v -createdAt -updatedAt -otp ");
-  res.status(201).json(updatestage);
+  try{
+    const update = await RoomModel.findOneAndUpdate({ user_id: id }, { Amenities: amenities });
+   const updatestage = await HotelAuth.findByIdAndUpdate(id, { completedstage: "amenities filled" }, { returnOriginal: false }).select("-__v -createdAt -updatedAt -otp ");
+   res.status(201).json(update);}
+  catch(err){
+    return res.status(400).json(err)
+  }
+  
+
+  
+ 
 };
 
 export const uploadphotos = async (req: Request, res: Response) => {
