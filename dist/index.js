@@ -16,7 +16,7 @@ const port = 5000;
 app.use((0, cors_1.default)());
 app.use(express_1.default.json({ limit: "50mb" }));
 app.use(express_1.default.urlencoded({ limit: "50mb", extended: true, parameterLimit: 50000 }));
-app.use(express_1.default.static(path_1.default.join(__dirname, '/public')));
+app.use("/public", express_1.default.static("public"));
 const storage = multer_1.default.diskStorage({
     destination: (req, file, cb) => {
         cb(null, path_1.default.join('public/'));
