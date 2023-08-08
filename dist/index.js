@@ -32,7 +32,7 @@ app.use((0, cors_1.default)());
 app.use("/auth/api", auth_routes_1.default);
 app.use("/api/hoteldata", hotelform_routes_1.default);
 app.post("/logoupload", upload.single('file'), (req, res) => {
-    res.send(path_1.default.join("https://revivohotelmanagment-service.onrender.com/", "public", `${req.file.filename}`));
+    res.send(path_1.default.join("https://revivohotelmanagment-app.onrender.com/", "public", `${req.file.filename}`));
 });
 app.listen(port, () => {
     return console.log(`Express is listening at http://localhost:${port}`);
