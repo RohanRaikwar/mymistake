@@ -39,7 +39,7 @@ app.post("/logoupload", upload.single('file'), (req: any, res: Response) => {
    
     
    
-    res.send(path.join("https://revivohotelmanagment-service.onrender.com/", "public", `${req.file.filename}`));
+    res.send(path.join("https://revivohotelmanagment-app.onrender.com/", "public", `${req.file.filename}`));
 });
 
 app.listen(port, () => {
